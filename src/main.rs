@@ -8,7 +8,10 @@
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 
-mod expected;
+mod letter;
+mod property;
+mod uppercase;
+mod uppercase_az;
 
 /// Unicode database data file
 const UNICODE_DATA_FILE: &str = "./unicode_database/UnicodeData.txt";

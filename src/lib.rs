@@ -9,5 +9,14 @@
 //! assert_eq!(uppercase_az['A'].to_string(), "A");
 //! ```
 
-mod expected;
-pub use expected::{Letter, Property, Uppercase, UppercaseAZ, NOT_A_UPPERCASE};
+mod letter;
+pub use letter::Letter;
+
+mod property;
+pub use property::Property;
+
+mod uppercase;
+pub use uppercase::{Uppercase, NOT_A_UPPERCASE};
+
+mod uppercase_az;
+pub use uppercase_az::UppercaseAZ;
