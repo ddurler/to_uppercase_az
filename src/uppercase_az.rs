@@ -11,14 +11,7 @@ use crate::property::Property;
 use crate::uppercase::{Uppercase, NOT_A_UPPERCASE};
 
 // Construct a Hashmap for uppercase AZ equivalent
-#[rustfmt::skip]
-lazy_static! {
-    static ref UPPERCASE_AZ: HashMap<u32, Uppercase> = {
-        let mut m = HashMap::new();
-        m.insert(65, Uppercase {letter: Letter::Letter('A'), property: Property::Capital});
-        m
-    };
-}
+include!("hash_uppercase_az.rs");
 
 /// All Uppercase AZ equivalent
 #[derive(Debug, Clone)]
@@ -54,7 +47,7 @@ impl UppercaseAZ<'_> {
     }
 
     #[must_use]
-    pub fn get_string(&self, c: char) -> Option<String> {
+    pub fn option_string(&self, c: char) -> Option<String> {
         let code_point = c as u32;
         self.0
             .get(&code_point)
@@ -62,8 +55,12 @@ impl UppercaseAZ<'_> {
     }
 
     #[must_use]
-    pub fn to_string(&self, c: char) -> String {
-        self.get_string(c).map_or_else(|| c.to_string(), |s| s)
+    pub fn to_string(&self, txt: &str) -> String {
+        let mut result = String::new();
+        for c in txt.chars() {
+            result.push_str(&self.option_string(c).unwrap_or_else(|| c.to_string()));
+        }
+        result
     }
 }
 
@@ -81,8 +78,18 @@ mod tests {
                 property: Property::Capital
             })
         );
-        assert_eq!(uppercase_az.get_string('A'), Some("A".to_string()));
-        assert_eq!(uppercase_az.to_string('A'), "A".to_string());
+    }
+
+    #[test]
+    fn test_uppercase_az_get_nonexistent_letter() {
+        let uppercase_az = UppercaseAZ::default();
+        assert_eq!(uppercase_az.get('2'), None);
+    }
+
+    #[test]
+    fn test_uppercase_az_get_string() {
+        let uppercase_az = UppercaseAZ::default();
+        assert_eq!(uppercase_az.option_string('A'), Some("A".to_string()));
     }
 
     #[test]
@@ -98,9 +105,12 @@ mod tests {
     }
 
     #[test]
-    fn test_uppercase_az_get_nonexistent_letter() {
+    fn test_uppercase_az_to_string() {
         let uppercase_az = UppercaseAZ::default();
-        assert_eq!(uppercase_az.get('2'), None);
-        assert_eq!(uppercase_az.to_string('2'), "2");
+
+        assert_eq!(uppercase_az.to_string("A"), "A");
+        assert_eq!(uppercase_az.to_string("AB"), "AB");
+        assert_eq!(uppercase_az.to_string("2"), "2");
+        assert_eq!(uppercase_az.to_string("2C"), "2C");
     }
 }

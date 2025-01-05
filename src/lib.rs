@@ -7,6 +7,7 @@
 //! let uppercase_az = UppercaseAZ::default();
 //!
 //! assert_eq!(uppercase_az['A'].to_string(), "A");
+//! assert_eq!(uppercase_az.to_string("A2B"), "A2B");
 //! ```
 
 mod letter;

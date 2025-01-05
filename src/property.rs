@@ -1,14 +1,28 @@
 //! Structure for uppercase AZ property : Capital, Small, Decoration
 
 /// Enumeration for uppercase AZ property
+#[allow(dead_code)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Property {
+    /// Unicode end point cannot be converted to uppercase A-Z. e.g: 1, 2 ...
     NotAnUppercase,
+
+    /// Unicode end point such as A, B, ...
     Capital,
+
+    /// Unicode end point such as a, b, ...
     Small,
+
+    /// Unicode end point small capital letter
     SmallAndCapital,
+
+    /// Unicode end point such as ℍ, ℕ, ...
     CapitalWithDecoration,
+
+    /// Unicode end point such as ⅆ, ⅇ, ...
     SmallWithDecoration,
+
+    /// Unicode end point small capital letter with extra decoration
     SmallAndCapitalWithDecoration,
 }
 

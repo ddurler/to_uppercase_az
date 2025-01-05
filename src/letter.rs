@@ -7,7 +7,7 @@ pub enum Letter {
     /// Single uppercase letter equivalent
     Letter(char),
 
-    /// Double uppercase letter equivalent
+    /// Double letters uppercase equivalent
     Letters(char, char),
 }
 

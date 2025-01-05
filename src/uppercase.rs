@@ -6,7 +6,7 @@ use std::fmt::Display;
 use crate::letter::Letter;
 use crate::property::Property;
 
-/// Unicode code point properties
+/// Unicode code point letter(s) and property
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Uppercase {
     // Uppercase letter(s) equivalent
@@ -22,7 +22,7 @@ impl Display for Uppercase {
     }
 }
 
-/// Default uppercase AZ for not equivalent
+/// Default for not equivalent uppercase AZ
 pub const NOT_A_UPPERCASE: Uppercase = Uppercase {
     letter: Letter::Letter('?'),
     property: Property::NotAnUppercase,
