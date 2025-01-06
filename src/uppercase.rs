@@ -23,7 +23,7 @@ impl Display for Uppercase {
 }
 
 /// Default for not equivalent uppercase AZ
-pub const NOT_A_UPPERCASE: Uppercase = Uppercase {
+pub const NOT_AN_UPPERCASE: Uppercase = Uppercase {
     letter: Letter::Letter('?'),
     property: Property::NotAnUppercase,
 };

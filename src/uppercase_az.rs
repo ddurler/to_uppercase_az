@@ -8,7 +8,7 @@ use std::ops::Index;
 
 use crate::letter::Letter;
 use crate::property::Property;
-use crate::uppercase::{Uppercase, NOT_A_UPPERCASE};
+use crate::uppercase::{Uppercase, NOT_AN_UPPERCASE};
 
 // Construct a Hashmap for uppercase AZ equivalent
 include!("hash_uppercase_az.rs");
@@ -43,7 +43,7 @@ impl UppercaseAZ<'_> {
         let code_point = c as u32;
         self.0
             .get(&code_point)
-            .map_or(&NOT_A_UPPERCASE, |uppercase| uppercase)
+            .map_or(&NOT_AN_UPPERCASE, |uppercase| uppercase)
     }
 
     #[must_use]
@@ -78,6 +78,55 @@ mod tests {
                 property: Property::Capital
             })
         );
+        assert_eq!(
+            uppercase_az.get('a'),
+            Some(Uppercase {
+                letter: Letter::Letter('A'),
+                property: Property::Small
+            })
+        );
+        assert_eq!(
+            uppercase_az.get('Â'),
+            Some(Uppercase {
+                letter: Letter::Letter('A'),
+                property: Property::CapitalWithDecoration
+            })
+        );
+        assert_eq!(
+            uppercase_az.get('à'),
+            Some(Uppercase {
+                letter: Letter::Letter('A'),
+                property: Property::SmallWithDecoration
+            })
+        );
+        assert_eq!(
+            uppercase_az.get('Æ'),
+            Some(Uppercase {
+                letter: Letter::Letters('A', 'E'),
+                property: Property::Capital
+            })
+        );
+        assert_eq!(
+            uppercase_az.get('Æ'),
+            Some(Uppercase {
+                letter: Letter::Letters('A', 'E'),
+                property: Property::Capital
+            })
+        );
+        assert_eq!(
+            uppercase_az.get('Œ'),
+            Some(Uppercase {
+                letter: Letter::Letters('O', 'E'),
+                property: Property::Capital
+            })
+        );
+        assert_eq!(
+            uppercase_az.get('œ'),
+            Some(Uppercase {
+                letter: Letter::Letters('O', 'E'),
+                property: Property::Small
+            })
+        );
     }
 
     #[test]
@@ -90,6 +139,9 @@ mod tests {
     fn test_uppercase_az_get_string() {
         let uppercase_az = UppercaseAZ::default();
         assert_eq!(uppercase_az.option_string('A'), Some("A".to_string()));
+        assert_eq!(uppercase_az.option_string('a'), Some("A".to_string()));
+        assert_eq!(uppercase_az.option_string('Æ'), Some("AE".to_string()));
+        assert_eq!(uppercase_az.option_string('œ'), Some("OE".to_string()));
     }
 
     #[test]
@@ -102,6 +154,20 @@ mod tests {
                 property: Property::Capital
             }
         );
+        assert_eq!(
+            uppercase_az['a'],
+            Uppercase {
+                letter: Letter::Letter('A'),
+                property: Property::Small
+            }
+        );
+        assert_eq!(
+            uppercase_az['Æ'],
+            Uppercase {
+                letter: Letter::Letters('A', 'E'),
+                property: Property::Capital
+            }
+        );
     }
 
     #[test]
@@ -109,8 +175,8 @@ mod tests {
         let uppercase_az = UppercaseAZ::default();
 
         assert_eq!(uppercase_az.to_string("A"), "A");
-        assert_eq!(uppercase_az.to_string("AB"), "AB");
+        assert_eq!(uppercase_az.to_string("ab"), "AB");
         assert_eq!(uppercase_az.to_string("2"), "2");
-        assert_eq!(uppercase_az.to_string("2C"), "2C");
+        assert_eq!(uppercase_az.to_string("à l'œil"), "A L'OEIL");
     }
 }

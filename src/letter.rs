@@ -1,7 +1,7 @@
 //! Structure for one or two letters equivalent for uppercase AZ code point
 use std::fmt::Display;
 
-/// Enumeration for uppercase AZ letter equivalent
+/// Enumeration for uppercase AZ letter(s) equivalent
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Letter {
     /// Single uppercase letter equivalent

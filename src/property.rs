@@ -7,6 +7,9 @@ pub enum Property {
     /// Unicode end point cannot be converted to uppercase A-Z. e.g: 1, 2 ...
     NotAnUppercase,
 
+    /// Unicode end point with unknown property
+    Unknown,
+
     /// Unicode end point such as A, B, ...
     Capital,
 
