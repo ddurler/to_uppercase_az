@@ -13,11 +13,6 @@
 //! $ cargo run generate```
 //!
 
-mod letter;
-mod property;
-mod uppercase;
-mod uppercase_az;
-
 mod database_parsing;
 use database_parsing::parse_unicode_database_file;
 
